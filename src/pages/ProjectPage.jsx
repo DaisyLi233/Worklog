@@ -9,7 +9,7 @@ import FinalizeModal from '../components/FinalizeModal'
 
 export default function ProjectPage() {
   const { projectId } = useParams()
-  const { projects, getProjectLogs, addLog, deleteLog, readonly } = useApp()
+  const { projects, getProjectLogs, addLog, deleteLog } = useApp()
   const [showForm, setShowForm] = useState(false)
   const [selected, setSelected] = useState(new Set())
   const [showSummarize, setShowSummarize] = useState(false)
@@ -46,24 +46,22 @@ export default function ProjectPage() {
           <p className="text-xs text-muted-taupe mt-0.5 ml-4">{logs.length} log{logs.length !== 1 ? 's' : ''}</p>
         </div>
 
-        {!readonly && (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowForm(s => !s)}
-              className="btn-secondary flex items-center gap-1.5 text-xs py-1.5 px-3"
-            >
-              <Plus size={13} />
-              Add entry
-            </button>
-            <button
-              onClick={() => setShowFinalize(true)}
-              className="btn-finalize flex items-center gap-1.5 text-xs py-1.5 px-3"
-            >
-              <Archive size={13} />
-              Finalize project
-            </button>
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowForm(s => !s)}
+            className="btn-secondary flex items-center gap-1.5 text-xs py-1.5 px-3"
+          >
+            <Plus size={13} />
+            Add entry
+          </button>
+          <button
+            onClick={() => setShowFinalize(true)}
+            className="btn-finalize flex items-center gap-1.5 text-xs py-1.5 px-3"
+          >
+            <Archive size={13} />
+            Finalize project
+          </button>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-3">
@@ -101,7 +99,7 @@ export default function ProjectPage() {
         ))}
       </div>
 
-      {logs.length > 0 && !readonly && (
+      {logs.length > 0 && (
         <div className="px-6 py-3 border-t border-border-warm flex items-center gap-3 flex-shrink-0">
           <p className="text-xs text-muted-taupe flex-1">
             {selected.size > 0

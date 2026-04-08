@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { TAGS, formatDate } from '../lib/helpers'
 import ConfirmDialog from './ConfirmDialog'
-import { useApp } from '../lib/AppContext'
-
 function ImageBlockDisplay({ block }) {
   if (!block.src) return null
   return (
@@ -21,7 +19,6 @@ function ImageBlockDisplay({ block }) {
 }
 
 export default function LogCard({ log, selected, onToggle, onDelete }) {
-  const { readonly } = useApp()
   const tag = TAGS[log.tag]
   const blocks = log.blocks || [{ type: 'text', content: log.content || '' }]
   const [confirming, setConfirming] = useState(false)
@@ -59,14 +56,12 @@ export default function LogCard({ log, selected, onToggle, onDelete }) {
           </div>
         </div>
 
-        {!readonly && (
-          <button
-            onClick={e => { e.stopPropagation(); setConfirming(true) }}
-            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-muted-taupe hover:text-tag-obstacle-text flex-shrink-0"
-          >
-            <Trash2 size={13} />
-          </button>
-        )}
+        <button
+          onClick={e => { e.stopPropagation(); setConfirming(true) }}
+          className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-muted-taupe hover:text-tag-obstacle-text flex-shrink-0"
+        >
+          <Trash2 size={13} />
+        </button>
       </div>
       {confirming && (
         <ConfirmDialog

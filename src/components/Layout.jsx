@@ -37,7 +37,7 @@ function ProjectItem({ project, active, onNavigate }) {
       ) : (
         <span className="flex-1 truncate text-sm">{project.name}</span>
       )}
-      {!editing && !readonly && (
+      {!editing && (
         <button
           onClick={e => { e.stopPropagation(); setEditing(true) }}
           className="opacity-0 group-hover:opacity-60 hover:!opacity-100 transition-opacity p-0.5 text-muted-taupe"
@@ -102,7 +102,7 @@ export default function Layout({ children }) {
             />
           ))}
 
-          {!readonly && (adding ? (
+          {adding ? (
             <form onSubmit={handleAdd} className="mt-1 px-1">
               <input
                 autoFocus
@@ -125,17 +125,20 @@ export default function Layout({ children }) {
               <Plus size={13} />
               New project
             </button>
-          ))}
+          )}
         </nav>
 
         <div className="px-4 py-3 border-t border-border-warm">
-          <p className="text-xs text-muted-taupe">
-            {readonly ? 'View only — data from repo' : 'All logs are private to you'}
-          </p>
+          <p className="text-xs text-muted-taupe">All logs are private to you</p>
         </div>
       </aside>
 
       <main className="flex-1 overflow-hidden flex flex-col min-w-0">
+        {readonly && (
+          <div className="flex-shrink-0 bg-amber-50 border-b border-amber-200 px-4 py-2 flex items-center gap-2">
+            <span className="text-xs text-amber-700">Changes made here won't be saved — this is a read-only demo.</span>
+          </div>
+        )}
         {children}
       </main>
     </div>
