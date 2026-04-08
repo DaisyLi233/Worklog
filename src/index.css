@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background-color: #F8F5F0;
+    color: #3E3631;
+    -webkit-font-smoothing: antialiased;
+  }
+  textarea, input {
+    outline: none;
+  }
+}
+
+@layer components {
+  .tag-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border;
+  }
+  .tag-process {
+    @apply bg-tag-process-bg text-tag-process-text border-tag-process-border;
+  }
+  .tag-obstacle {
+    @apply bg-tag-obstacle-bg text-tag-obstacle-text border-tag-obstacle-border;
+  }
+  .tag-retro {
+    @apply bg-tag-retro-bg text-tag-retro-text border-tag-retro-border;
+  }
+  .btn-primary {
+    @apply bg-sage-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-sage-dark transition-colors;
+  }
+  .btn-secondary {
+    @apply bg-card-bg text-cocoa-text px-4 py-2 rounded-lg text-sm border border-border-warm hover:bg-app-bg transition-colors;
+  }
+  .btn-finalize {
+    @apply bg-cocoa-text text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity;
+  }
+  .card {
+    @apply bg-card-bg rounded-xl border border-border-warm;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D9D3CA;
+  border-radius: 99px;
+}
