@@ -88,22 +88,40 @@ VITE_ANTHROPIC_API_KEY=your_api_key_here
 
 The real .env file should not be committed to GitHub.
 
-For local development, the app calls the Anthropic API directly from the browser. For production use, API requests should be routed through a backend service so the key can remain secure.
+The app calls the Anthropic API directly from the browser. AI features (Summarize, Knowledge Transfer, Performance Report) are only available in local development — the deployed Vercel version is read-only.
 
-### File Strucuture
+### Data & Deployment
+
+All data lives in `public/data/` as plain JSON files committed to the repository.
+
+**Local development:** Every change you make (adding logs, creating projects, generating reports) is automatically written back to the JSON files on disk via the Vite dev server. No manual export step is needed.
+
+**Deploying to Vercel:** Push to GitHub and Vercel will deploy automatically. The deployed version reads directly from the committed JSON files and is fully read-only — no edits can be made from the browser.
+
+**Images:** Screenshots attached to log entries are stored as base64 inline inside `logs.json`, so they are committed alongside the text and render correctly on Vercel with no separate storage needed.
+
+### File Structure
 ```
-rc/
+src/
   components/
     Layout.jsx
     LogCard.jsx
     AddEntryForm.jsx
     SummarizePanel.jsx
     FinalizeModal.jsx
+    ConfirmDialog.jsx
   pages/
     ProjectPage.jsx
+    HistoryPage.jsx
   lib/
     AppContext.jsx
+    api.js
     helpers.js
+public/
+  data/
+    projects.json
+    logs.json
+    history.json
 ```
 
 ### Stack

@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import { Plus, BookOpen, Clock, Check, Pencil } from 'lucide-react'
+import { Plus, BookOpen, Clock, Pencil } from 'lucide-react'
 import { useApp } from '../lib/AppContext'
 
 function ProjectItem({ project, active, onNavigate }) {
-  const { renameProject } = useApp()
+  const { renameProject, readonly } = useApp()
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(project.name)
   const inputRef = useRef()
@@ -37,7 +37,7 @@ function ProjectItem({ project, active, onNavigate }) {
       ) : (
         <span className="flex-1 truncate text-sm">{project.name}</span>
       )}
-      {!editing && (
+      {!editing && !readonly && (
         <button
           onClick={e => { e.stopPropagation(); setEditing(true) }}
           className="opacity-0 group-hover:opacity-60 hover:!opacity-100 transition-opacity p-0.5 text-muted-taupe"
@@ -50,7 +50,7 @@ function ProjectItem({ project, active, onNavigate }) {
 }
 
 export default function Layout({ children }) {
-  const { projects, addProject } = useApp()
+  const { projects, addProject, readonly } = useApp()
   const { projectId } = useParams()
   const location = useLocation()
   const navigate = useNavigate()
@@ -102,7 +102,7 @@ export default function Layout({ children }) {
             />
           ))}
 
-          {adding ? (
+          {!readonly && (adding ? (
             <form onSubmit={handleAdd} className="mt-1 px-1">
               <input
                 autoFocus
@@ -125,11 +125,13 @@ export default function Layout({ children }) {
               <Plus size={13} />
               New project
             </button>
-          )}
+          ))}
         </nav>
 
         <div className="px-4 py-3 border-t border-border-warm">
-          <p className="text-xs text-muted-taupe">All logs are private to you</p>
+          <p className="text-xs text-muted-taupe">
+            {readonly ? 'View only — data from repo' : 'All logs are private to you'}
+          </p>
         </div>
       </aside>
 

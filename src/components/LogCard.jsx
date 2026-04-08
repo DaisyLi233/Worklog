@@ -1,27 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { TAGS, formatDate } from '../lib/helpers'
-import { loadImage } from '../lib/imageDB'
 import ConfirmDialog from './ConfirmDialog'
+import { useApp } from '../lib/AppContext'
 
 function ImageBlockDisplay({ block }) {
-  const [src, setSrc] = useState(null)
-
-  useEffect(() => {
-    // block.src exists if this is a legacy entry or freshly rendered before save
-    if (block.src) { setSrc(block.src); return }
-    // Otherwise load from IndexedDB by block.id
-    loadImage(block.id).then(url => { if (url) setSrc(url) })
-  }, [block.id, block.src])
-
-  if (!src) return (
-    <div className="h-16 w-32 rounded-lg border border-border-warm bg-app-bg animate-pulse" />
-  )
-
+  if (!block.src) return null
   return (
     <div>
       <img
-        src={src}
+        src={block.src}
         alt={block.caption || 'screenshot'}
         className="max-h-40 max-w-full rounded-lg border border-border-warm object-contain"
       />
@@ -33,6 +21,7 @@ function ImageBlockDisplay({ block }) {
 }
 
 export default function LogCard({ log, selected, onToggle, onDelete }) {
+  const { readonly } = useApp()
   const tag = TAGS[log.tag]
   const blocks = log.blocks || [{ type: 'text', content: log.content || '' }]
   const [confirming, setConfirming] = useState(false)
@@ -70,12 +59,14 @@ export default function LogCard({ log, selected, onToggle, onDelete }) {
           </div>
         </div>
 
-        <button
-          onClick={e => { e.stopPropagation(); setConfirming(true) }}
-          className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-muted-taupe hover:text-tag-obstacle-text flex-shrink-0"
-        >
-          <Trash2 size={13} />
-        </button>
+        {!readonly && (
+          <button
+            onClick={e => { e.stopPropagation(); setConfirming(true) }}
+            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-muted-taupe hover:text-tag-obstacle-text flex-shrink-0"
+          >
+            <Trash2 size={13} />
+          </button>
+        )}
       </div>
       {confirming && (
         <ConfirmDialog
