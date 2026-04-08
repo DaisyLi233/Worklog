@@ -107,8 +107,9 @@ rc/
 ```
 
 ### Stack
-React 18 + Vite
-Tailwind CSS
-React Router v6
-Lucide icons
-Anthropic Claude API for Summarize, Knowledge Transfer, and Performance Report
+
+- React 18 + Vite
+- Tailwind CSS
+- React Router v6
+- Lucide icons
+- Anthropic Claude API for Summarize, Knowledge Transfer, and Performance Report
